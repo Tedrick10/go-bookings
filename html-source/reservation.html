@@ -9,6 +9,10 @@
     <!-- Bootstrap CSS CDN Link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- VanillaJS DatePicker CSS CDN Link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/css/datepicker-bs4.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/css/datepicker.min.css"> -->
+
     <!-- Local CSS -->
     <style>
         .my-footer {
@@ -22,6 +26,10 @@
 
         .room-image {
           max-width: 50%;
+        }
+
+        .redText {
+          color: red;
         }
     </style>
 </head>
@@ -74,32 +82,39 @@
                 <h3 class="mt-5">Search for Availability</h3>
 
                 <!-- Form -->
-                <form action="reservation.html" method="get">
+                <form action="reservation.html" method="get" novalidate class="needs-validation">
+                  <!-- Date Range Section -->
                   <div class="form-row">
-
-                     <!-- Start Date Form Field -->
                     <div class="col">
-                      <div class="form-group">
-                        <label for="start_date">Starting Date</label>
-                        <input required="required" type="date" class="form-control" id="start_date" aria-describedby="startDateHelp" placeholder="Enter start date" name="start_date">
-                        <small id="startDateHelp" class="form-text text-muted">Enter your starting date in the form of YYYY-MM-DD</small>
-                      </div>
-                    </div>
-
-                    <!-- End Date Form Field -->
-                    <div class="col">
-                      <div class="form-group">
-                        <label for="end_date">Ending Date</label>
-                        <input required="required" type="date" class="form-control" id="end_date" aria-describedby="endDateHelp" placeholder="Enter end date" name="end_date">
-                        <small id="endDateHelp" class="form-text text-muted">Enter your ending date in the form of YYYY-MM-DD</small>
+                      <div id="reservation-dates" class="form-row">
+                        <div class="col">
+                          <input type="text" name="start" class="form-control" placeholder="Arrival">
+                        </div>
+                        <div class="col">
+                          <input type="text" name="end" class="form-control" placeholder="Departure"> 
+                        </div> 
                       </div>
                     </div>
                   </div>
-                 
+
+                  <!-- Horizontal Line -->
+                  <hr>
+
                   <!-- Submit Button -->
                   <button type="submit" class="btn btn-primary">Search Availability</button>
                 </form>
             </div>
+        </div>
+
+        <div class="row">
+          <div class="col mt-5">
+            <p id="myParagraph">This is some text.</p>
+            <p>
+              <button class="btn btn-outline-secondary" id="colorButton">
+                Click Me
+              </button>
+            </p>
+          </div>
         </div>
     </div>
 
@@ -114,5 +129,51 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+
+    <!-- VanillaJS DatePicker JavaScript CDN Link -->
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/js/datepicker-full.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+      console.log("I am printing from JavaScript.");
+
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+
+      // Date Range Picker Section
+      const element = document.getElementById('reservation-dates');
+      const rangepicker = new DateRangePicker(element, {
+        format: "yyyy-mm-dd",
+      }); 
+
+      // Testing Section
+      let myButton = document.getElementById("colorButton");
+      myButton.addEventListener("click", function() {
+        let myElement = document.getElementById("myParagraph");
+        let myElementClassList = myElement.classList;
+
+        // Toggle Conditions
+        if(myElementClassList.contains("redText")) {
+          myElementClassList.remove("redText");
+        } else {
+          myElementClassList.add("redText");
+        }
+      },);
+    </script>
+  </body>
 </html>
